@@ -60,6 +60,8 @@ export default (Alpine) => {
             pond: null,
 
             shouldUpdateState: true,
+            
+            lastState: null,
 
             state,
 
@@ -139,6 +141,13 @@ export default (Alpine) => {
                     if (Object.values(this.state).filter((file) => file.startsWith('livewire-file:')).length) {
                         return
                     }
+                    
+                    // Don't do anything if the state hasn't changed
+                    if (this.state === this.lastState) {
+                        return;
+                    }
+                    
+                    this.lastState = this.state;
 
                     this.pond.files = await this.getFiles()
                 })
